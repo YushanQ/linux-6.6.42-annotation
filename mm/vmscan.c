@@ -3022,7 +3022,7 @@ static void prepare_scan_count(pg_data_t *pgdat, struct scan_control *sc)
  * nr[0] = anon inactive folios to scan; nr[1] = anon active folios to scan
  * nr[2] = file inactive folios to scan; nr[3] = file active folios to scan
  */
-static void get_scan_count(struct lruvec *lruvec, struct scan_control *sc,
+static noinline void get_scan_count(struct lruvec *lruvec, struct scan_control *sc,
 			   unsigned long *nr)
 {
 	struct pglist_data *pgdat = lruvec_pgdat(lruvec);
@@ -5259,7 +5259,7 @@ retry:
 	return scanned;
 }
 
-static bool should_run_aging(struct lruvec *lruvec, unsigned long max_seq,
+static noinline bool should_run_aging(struct lruvec *lruvec, unsigned long max_seq,
 			     struct scan_control *sc, bool can_swap, unsigned long *nr_to_scan)
 {
 	int gen, type, zone;
@@ -6441,7 +6441,7 @@ static bool in_reclaim_compaction(struct scan_control *sc)
  * calls try_to_compact_pages() that it will have enough free pages to succeed.
  * It will give up earlier than that if there is difficulty reclaiming pages.
  */
-static inline bool should_continue_reclaim(struct pglist_data *pgdat,
+static noinline bool should_continue_reclaim(struct pglist_data *pgdat,
 					unsigned long nr_reclaimed,
 					struct scan_control *sc)
 {
@@ -6697,7 +6697,7 @@ static inline bool compaction_ready(struct zone *zone, struct scan_control *sc)
 	return zone_watermark_ok_safe(zone, 0, watermark, sc->reclaim_idx);
 }
 
-static void consider_reclaim_throttle(pg_data_t *pgdat, struct scan_control *sc)
+static noinline void consider_reclaim_throttle(pg_data_t *pgdat, struct scan_control *sc)
 {
 	/*
 	 * If reclaim is making progress greater than 12% efficiency then
