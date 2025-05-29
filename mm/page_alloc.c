@@ -3427,7 +3427,7 @@ __alloc_pages_direct_compact(gfp_t gfp_mask, unsigned int order,
 	return NULL;
 }
 
-static inline bool
+static noinline bool
 should_compact_retry(struct alloc_context *ac, int order, int alloc_flags,
 		     enum compact_result compact_result,
 		     enum compact_priority *compact_priority,
@@ -5640,7 +5640,7 @@ static void setup_per_zone_lowmem_reserve(void)
 	calculate_totalreserve_pages();
 }
 
-static void __setup_per_zone_wmarks(void)
+static noinline void __setup_per_zone_wmarks(void)
 {
 	unsigned long pages_min = min_free_kbytes >> (PAGE_SHIFT - 10);
 	unsigned long lowmem_pages = 0;

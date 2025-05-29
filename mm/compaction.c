@@ -1635,7 +1635,7 @@ static void fast_isolate_freepages(struct compact_control *cc)
  * Based on information in the current compact_control, find blocks
  * suitable for isolating free pages from and then isolate them.
  */
-static void isolate_freepages(struct compact_control *cc)
+static noinline void isolate_freepages(struct compact_control *cc)
 {
 	struct zone *zone = cc->zone;
 	struct page *page;
@@ -1964,7 +1964,7 @@ static unsigned long fast_find_migrateblock(struct compact_control *cc)
  * starting at the block pointed to by the migrate scanner pfn within
  * compact_control.
  */
-static isolate_migrate_t isolate_migratepages(struct compact_control *cc)
+static noinline isolate_migrate_t isolate_migratepages(struct compact_control *cc)
 {
 	unsigned long block_start_pfn;
 	unsigned long block_end_pfn;
@@ -2125,7 +2125,7 @@ static unsigned int fragmentation_score_zone_weighted(struct zone *zone)
  * the node's score falls below the low threshold, or one of the back-off
  * conditions is met.
  */
-static unsigned int fragmentation_score_node(pg_data_t *pgdat)
+static noinline unsigned int fragmentation_score_node(pg_data_t *pgdat)
 {
 	unsigned int score = 0;
 	int zoneid;
@@ -2155,7 +2155,7 @@ static unsigned int fragmentation_score_wmark(bool low)
 	return low ? wmark_low : min(wmark_low + 10, 100U);
 }
 
-static bool should_proactive_compact_node(pg_data_t *pgdat)
+static noinline bool should_proactive_compact_node(pg_data_t *pgdat)
 {
 	int wmark_high;
 

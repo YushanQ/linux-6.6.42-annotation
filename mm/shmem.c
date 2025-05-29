@@ -131,7 +131,7 @@ struct shmem_options {
 };
 
 #ifdef CONFIG_TMPFS
-static unsigned long shmem_default_max_blocks(void)
+static noinline unsigned long shmem_default_max_blocks(void)
 {
 	return totalram_pages() / 2;
 }

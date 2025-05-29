@@ -1697,7 +1697,7 @@ EXPORT_SYMBOL_GPL(unregister_vmap_purge_notifier);
  * code, and it will be simple to change the scale factor if we find that it
  * becomes a problem on bigger systems.
  */
-static unsigned long lazy_max_pages(void)
+static noinline unsigned long lazy_max_pages(void)
 {
 	unsigned int log;
 

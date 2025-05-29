@@ -225,7 +225,7 @@ static void folio_batch_move_lru(struct folio_batch *fbatch, move_fn_t move_fn)
 	folio_batch_reinit(fbatch);
 }
 
-static void folio_batch_add_and_move(struct folio_batch *fbatch,
+static noinline void folio_batch_add_and_move(struct folio_batch *fbatch,
 		struct folio *folio, move_fn_t move_fn)
 {
 	if (folio_batch_add(fbatch, folio) && !folio_test_large(folio) &&

@@ -340,7 +340,7 @@ void force_page_cache_ra(struct readahead_control *ractl,
  * for 128k (32 page) max ra
  * 1-2 page = 16k, 3-4 page 32k, 5-8 page = 64k, > 8 page = 128k initial
  */
-static unsigned long get_init_ra_size(unsigned long size, unsigned long max)
+static noinline unsigned long get_init_ra_size(unsigned long size, unsigned long max)
 {
 	unsigned long newsize = roundup_pow_of_two(size);
 
@@ -358,7 +358,7 @@ static unsigned long get_init_ra_size(unsigned long size, unsigned long max)
  *  Get the previous window size, ramp it up, and
  *  return it as the new window size.
  */
-static unsigned long get_next_ra_size(struct file_ra_state *ra,
+static noinline unsigned long get_next_ra_size(struct file_ra_state *ra,
 				      unsigned long max)
 {
 	unsigned long cur = ra->size;
@@ -415,7 +415,7 @@ static unsigned long get_next_ra_size(struct file_ra_state *ra,
  * 	- length of the sequential read sequence, or
  * 	- thrashing threshold in memory tight systems
  */
-static pgoff_t count_history_pages(struct address_space *mapping,
+static noinline pgoff_t count_history_pages(struct address_space *mapping,
 				   pgoff_t index, unsigned long max)
 {
 	pgoff_t head;

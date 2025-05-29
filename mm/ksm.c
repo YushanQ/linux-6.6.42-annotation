@@ -2304,7 +2304,7 @@ static struct ksm_rmap_item *get_next_rmap_item(struct ksm_mm_slot *mm_slot,
 	return rmap_item;
 }
 
-static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
+static noinline struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
 {
 	struct mm_struct *mm;
 	struct ksm_mm_slot *mm_slot;

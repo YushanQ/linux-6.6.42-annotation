@@ -536,7 +536,7 @@ static void alloc_cluster(struct swap_info_struct *si, unsigned long idx)
 	cluster_set_count_flag(ci + idx, 0, 0);
 }
 
-static void free_cluster(struct swap_info_struct *si, unsigned long idx)
+static noinline void free_cluster(struct swap_info_struct *si, unsigned long idx)
 {
 	struct swap_cluster_info *ci = si->cluster_info + idx;
 

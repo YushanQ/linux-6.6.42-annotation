@@ -1744,7 +1744,7 @@ unlock:
 	return ret;
 }
 
-static int mem_cgroup_soft_reclaim(struct mem_cgroup *root_memcg,
+static noinline int mem_cgroup_soft_reclaim(struct mem_cgroup *root_memcg,
 				   pg_data_t *pgdat,
 				   gfp_t gfp_mask,
 				   unsigned long *total_scanned)
@@ -6860,7 +6860,7 @@ struct cgroup_subsys memory_cgrp_subsys = {
  * against immediate siblings whereas 5. is about protecting against
  * neighboring subtrees.
  */
-static unsigned long effective_protection(unsigned long usage,
+static noinline unsigned long effective_protection(unsigned long usage,
 					  unsigned long parent_usage,
 					  unsigned long setting,
 					  unsigned long parent_effective,

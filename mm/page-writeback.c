@@ -832,7 +832,7 @@ int bdi_set_strict_limit(struct backing_dev_info *bdi, unsigned int strict_limit
 	return 0;
 }
 
-static unsigned long dirty_freerun_ceiling(unsigned long thresh,
+static noinline unsigned long dirty_freerun_ceiling(unsigned long thresh,
 					   unsigned long bg_thresh)
 {
 	return (thresh + bg_thresh) / 2;
@@ -1199,7 +1199,7 @@ static void wb_position_ratio(struct dirty_throttle_control *dtc)
 	dtc->pos_ratio = pos_ratio;
 }
 
-static void wb_update_write_bandwidth(struct bdi_writeback *wb,
+static noinline void wb_update_write_bandwidth(struct bdi_writeback *wb,
 				      unsigned long elapsed,
 				      unsigned long written)
 {
@@ -1565,7 +1565,7 @@ static unsigned long wb_max_pause(struct bdi_writeback *wb,
 	return min_t(unsigned long, t, MAX_PAUSE);
 }
 
-static long wb_min_pause(struct bdi_writeback *wb,
+static noinline long wb_min_pause(struct bdi_writeback *wb,
 			 long max_pause,
 			 unsigned long task_ratelimit,
 			 unsigned long dirty_ratelimit,
