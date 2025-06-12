@@ -465,7 +465,7 @@ static void mem_cgroup_remove_exceeded(struct mem_cgroup_per_node *mz,
 	spin_unlock_irqrestore(&mctz->lock, flags);
 }
 
-static unsigned long soft_limit_excess(struct mem_cgroup *memcg)
+static noinline unsigned long soft_limit_excess(struct mem_cgroup *memcg)
 {
 	unsigned long nr_pages = page_counter_read(&memcg->memory);
 	unsigned long soft_limit = READ_ONCE(memcg->soft_limit);
@@ -2519,7 +2519,7 @@ static u64 swap_find_max_overage(struct mem_cgroup *memcg)
  * Get the number of jiffies that we should penalise a mischievous cgroup which
  * is exceeding its memory.high by checking both it and its ancestors.
  */
-static unsigned long calculate_high_delay(struct mem_cgroup *memcg,
+static noinline unsigned long calculate_high_delay(struct mem_cgroup *memcg,
 					  unsigned int nr_pages,
 					  u64 max_overage)
 {

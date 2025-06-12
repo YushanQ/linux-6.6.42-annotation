@@ -391,7 +391,7 @@ static int __init pcpu_verify_alloc_info(const struct pcpu_alloc_info *ai)
  * list which enables them to be pulled back in for allocation if no other chunk
  * can suffice the allocation.
  */
-static bool pcpu_should_reclaim_chunk(struct pcpu_chunk *chunk)
+static noinline bool pcpu_should_reclaim_chunk(struct pcpu_chunk *chunk)
 {
 	/* do not reclaim either the first chunk or reserved chunk */
 	if (chunk == pcpu_first_chunk || chunk == pcpu_reserved_chunk)

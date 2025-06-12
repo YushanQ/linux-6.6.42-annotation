@@ -1537,7 +1537,7 @@ static void wb_bandwidth_estimate_start(struct bdi_writeback *wb)
  * global_zone_page_state() too often. So scale it near-sqrt to the safety margin
  * (the number of pages we may dirty without exceeding the dirty limits).
  */
-static unsigned long dirty_poll_interval(unsigned long dirty,
+static noinline unsigned long dirty_poll_interval(unsigned long dirty,
 					 unsigned long thresh)
 {
 	if (thresh > dirty)
@@ -1546,7 +1546,7 @@ static unsigned long dirty_poll_interval(unsigned long dirty,
 	return 1;
 }
 
-static unsigned long wb_max_pause(struct bdi_writeback *wb,
+static noinline unsigned long wb_max_pause(struct bdi_writeback *wb,
 				  unsigned long wb_dirty)
 {
 	unsigned long bw = READ_ONCE(wb->avg_write_bandwidth);
@@ -1640,7 +1640,7 @@ static noinline long wb_min_pause(struct bdi_writeback *wb,
 	return pages >= DIRTY_POLL_THRESH ? 1 + t / 2 : t;
 }
 
-static inline void wb_dirty_limits(struct dirty_throttle_control *dtc)
+static noinline void wb_dirty_limits(struct dirty_throttle_control *dtc)
 {
 	struct bdi_writeback *wb = dtc->wb;
 	unsigned long wb_reclaimable;

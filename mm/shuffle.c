@@ -33,7 +33,7 @@ module_param_cb(shuffle, &shuffle_param_ops, &shuffle_param, 0400);
  * For two pages to be swapped in the shuffle, they must be free (on a
  * 'free_area' lru), have the same order, and have the same migratetype.
  */
-static struct page * __meminit shuffle_valid_page(struct zone *zone,
+static noinline struct page * __meminit shuffle_valid_page(struct zone *zone,
 						  unsigned long pfn, int order)
 {
 	struct page *page = pfn_to_online_page(pfn);
@@ -158,7 +158,7 @@ void __meminit __shuffle_free_memory(pg_data_t *pgdat)
 		shuffle_zone(z);
 }
 
-bool shuffle_pick_tail(void)
+noinline bool shuffle_pick_tail(void)
 {
 	static u64 rand;
 	static u8 rand_bits;

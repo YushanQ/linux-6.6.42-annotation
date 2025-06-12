@@ -1059,7 +1059,7 @@ anon_vma_fail:
  * driver is doing some kind of reference counting. But that doesn't
  * really matter for the anon_vma sharing case.
  */
-static int anon_vma_compatible(struct vm_area_struct *a, struct vm_area_struct *b)
+static noinline int anon_vma_compatible(struct vm_area_struct *a, struct vm_area_struct *b)
 {
 	return a->vm_end == b->vm_start &&
 		mpol_equal(vma_policy(a), vma_policy(b)) &&

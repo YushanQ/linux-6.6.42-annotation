@@ -1521,7 +1521,7 @@ enum folio_references {
 	FOLIOREF_ACTIVATE,
 };
 
-static enum folio_references folio_check_references(struct folio *folio,
+static noinline enum folio_references folio_check_references(struct folio *folio,
 						  struct scan_control *sc)
 {
 	int referenced_ptes, referenced_folio;

@@ -430,7 +430,7 @@ static noinline pgoff_t count_history_pages(struct address_space *mapping,
 /*
  * page cache context based readahead
  */
-static int try_context_readahead(struct address_space *mapping,
+static noinline int try_context_readahead(struct address_space *mapping,
 				 struct file_ra_state *ra,
 				 pgoff_t index,
 				 unsigned long req_size,

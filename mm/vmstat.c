@@ -2148,7 +2148,7 @@ void __init init_mm_internals(void)
  * Return an index indicating how much of the available free memory is
  * unusable for an allocation of the requested size.
  */
-static int unusable_free_index(unsigned int order,
+static noinline int unusable_free_index(unsigned int order,
 				struct contig_page_info *info)
 {
 	/* No free memory is interpreted as all free memory is unusable */

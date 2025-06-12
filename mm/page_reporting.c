@@ -142,7 +142,7 @@ page_reporting_drain(struct page_reporting_dev_info *prdev,
  * idle. We will cycle through the first 3 stages until we cannot obtain a
  * full scatterlist of pages, in that case we will switch to idle.
  */
-static int
+static noinline int
 page_reporting_cycle(struct page_reporting_dev_info *prdev, struct zone *zone,
 		     unsigned int order, unsigned int mt,
 		     struct scatterlist *sgl, unsigned int *offset)

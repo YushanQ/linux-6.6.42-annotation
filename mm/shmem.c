@@ -136,7 +136,7 @@ static noinline unsigned long shmem_default_max_blocks(void)
 	return totalram_pages() / 2;
 }
 
-static unsigned long shmem_default_max_inodes(void)
+static noinline unsigned long shmem_default_max_inodes(void)
 {
 	unsigned long nr_pages = totalram_pages();
 

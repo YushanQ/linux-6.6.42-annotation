@@ -484,7 +484,7 @@ static inline unsigned int oo_objects(struct kmem_cache_order_objects x)
 }
 
 #ifdef CONFIG_SLUB_CPU_PARTIAL
-static void slub_set_cpu_partial(struct kmem_cache *s, unsigned int nr_objects)
+static noinline void slub_set_cpu_partial(struct kmem_cache *s, unsigned int nr_objects)
 {
 	unsigned int nr_slabs;
 
@@ -500,7 +500,7 @@ static void slub_set_cpu_partial(struct kmem_cache *s, unsigned int nr_objects)
 	s->cpu_partial_slabs = nr_slabs;
 }
 #else
-static inline void
+static noinline void
 slub_set_cpu_partial(struct kmem_cache *s, unsigned int nr_objects)
 {
 }
@@ -2330,7 +2330,7 @@ static void *get_partial_node(struct kmem_cache *s, struct kmem_cache_node *n,
 /*
  * Get a slab from somewhere. Search in increasing NUMA distances.
  */
-static void *get_any_partial(struct kmem_cache *s, struct partial_context *pc)
+static noinline void *get_any_partial(struct kmem_cache *s, struct partial_context *pc)
 {
 #ifdef CONFIG_NUMA
 	struct zonelist *zonelist;
@@ -4109,7 +4109,7 @@ static unsigned int slub_min_objects;
  * requested a higher minimum order then we start with that one instead of
  * the smallest order which will fit the object.
  */
-static inline unsigned int calc_slab_order(unsigned int size,
+static noinline unsigned int calc_slab_order(unsigned int size,
 		unsigned int min_objects, unsigned int max_order,
 		unsigned int fract_leftover)
 {
@@ -4134,7 +4134,7 @@ static inline unsigned int calc_slab_order(unsigned int size,
 	return order;
 }
 
-static inline int calculate_order(unsigned int size)
+static noinline int calculate_order(unsigned int size)
 {
 	unsigned int order;
 	unsigned int min_objects;

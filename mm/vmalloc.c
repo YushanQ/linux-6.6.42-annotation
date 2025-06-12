@@ -1355,7 +1355,7 @@ enum fit_type {
 	NE_FIT_TYPE = 4		/* no edge fit */
 };
 
-static __always_inline enum fit_type
+static noinline enum fit_type
 classify_va_fit_type(struct vmap_area *va,
 	unsigned long nva_start_addr, unsigned long size)
 {

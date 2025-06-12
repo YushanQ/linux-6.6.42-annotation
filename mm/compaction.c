@@ -202,7 +202,7 @@ void compaction_defer_reset(struct zone *zone, int order,
 }
 
 /* Returns true if restarting compaction after many failures */
-static bool compaction_restarting(struct zone *zone, int order)
+static noinline bool compaction_restarting(struct zone *zone, int order)
 {
 	if (order < zone->compact_order_failed)
 		return false;
@@ -785,7 +785,7 @@ isolate_freepages_range(struct compact_control *cc,
 }
 
 /* Similar to reclaim, but different enough that they don't share logic */
-static bool too_many_isolated(struct compact_control *cc)
+static noinline bool too_many_isolated(struct compact_control *cc)
 {
 	pg_data_t *pgdat = cc->zone->zone_pgdat;
 	bool too_many;
@@ -1322,7 +1322,7 @@ isolate_migratepages_range(struct compact_control *cc, unsigned long start_pfn,
 #endif /* CONFIG_COMPACTION || CONFIG_CMA */
 #ifdef CONFIG_COMPACTION
 
-static bool suitable_migration_source(struct compact_control *cc,
+static noinline bool suitable_migration_source(struct compact_control *cc,
 							struct page *page)
 {
 	int block_mt;
@@ -1342,7 +1342,7 @@ static bool suitable_migration_source(struct compact_control *cc,
 }
 
 /* Returns true if the page is within a block suitable for migration to */
-static bool suitable_migration_target(struct compact_control *cc,
+static noinline bool suitable_migration_target(struct compact_control *cc,
 							struct page *page)
 {
 	/* If the page is a large free page, then disallow migration */
@@ -1367,7 +1367,7 @@ static bool suitable_migration_target(struct compact_control *cc,
 	return false;
 }
 
-static inline unsigned int
+static noinline unsigned int
 freelist_scan_limit(struct compact_control *cc)
 {
 	unsigned short shift = BITS_PER_LONG - 1;
@@ -2142,7 +2142,7 @@ static noinline unsigned int fragmentation_score_node(pg_data_t *pgdat)
 	return score;
 }
 
-static unsigned int fragmentation_score_wmark(bool low)
+static noinline unsigned int fragmentation_score_wmark(bool low)
 {
 	unsigned int wmark_low;
 
@@ -2903,7 +2903,7 @@ static inline bool kcompactd_work_requested(pg_data_t *pgdat)
 		pgdat->proactive_compact_trigger;
 }
 
-static bool kcompactd_node_suitable(pg_data_t *pgdat)
+static noinline bool kcompactd_node_suitable(pg_data_t *pgdat)
 {
 	int zoneid;
 	struct zone *zone;
