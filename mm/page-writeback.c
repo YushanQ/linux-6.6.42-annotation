@@ -39,8 +39,12 @@
 #include <linux/sched/signal.h>
 #include <linux/mm_inline.h>
 #include <trace/events/writeback.h>
+#include <linux/kermit.h>
 
 #include "internal.h"
+
+unsigned long (*tune_dirty_poll_interval) (unsigned long dirty, unsigned long thresh) = NULL;
+EXPORT_SYMBOL_GPL(tune_dirty_poll_interval);
 
 /*
  * Sleep at most 200ms at a time in balance_dirty_pages().
@@ -1794,7 +1798,13 @@ static int balance_dirty_pages(struct bdi_writeback *wb,
 			unsigned long m_intv;
 
 free_running:
-			intv = dirty_poll_interval(dirty, thresh);
+			// intv = dirty_poll_interval(dirty, thresh);
+			intv = ML_REPLACE_FUNCTION(
+				unsigned long,
+				tune_dirty_poll_interval,
+				tune_dirty_poll_interval(dirty, thresh),
+				dirty_poll_interval(dirty, thresh)
+			);
 			m_intv = ULONG_MAX;
 
 			current->dirty_paused_when = now;
