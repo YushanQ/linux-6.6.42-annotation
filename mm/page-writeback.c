@@ -40,6 +40,7 @@
 #include <linux/mm_inline.h>
 #include <trace/events/writeback.h>
 #include <linux/kermit.h>
+#include <linux/error-injection.h>
 
 #include "internal.h"
 
