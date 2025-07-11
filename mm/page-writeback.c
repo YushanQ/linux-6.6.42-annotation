@@ -46,7 +46,6 @@
 
 unsigned long (*tune_dirty_poll_interval) (unsigned long dirty, unsigned long thresh) = NULL;
 EXPORT_SYMBOL_GPL(tune_dirty_poll_interval);
-ALLOW_ERROR_INJECTION(dirty_poll_interval, ERRNO);
 
 /*
  * Sleep at most 200ms at a time in balance_dirty_pages().
@@ -1551,6 +1550,7 @@ static noinline unsigned long dirty_poll_interval(unsigned long dirty,
 
 	return 1;
 }
+ALLOW_ERROR_INJECTION(dirty_poll_interval, ERRNO);
 
 static noinline unsigned long wb_max_pause(struct bdi_writeback *wb,
 				  unsigned long wb_dirty)
