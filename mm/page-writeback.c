@@ -47,12 +47,12 @@
 unsigned long (*tune_dirty_poll_interval) (unsigned long dirty, unsigned long thresh) = NULL;
 EXPORT_SYMBOL_GPL(tune_dirty_poll_interval);
 
-noinline unsigned long pause_period_injection() {
+noinline unsigned long pause_period_injection(void) {
 	return 0;
 }
 ALLOW_ERROR_INJECTION(pause_period_injection, ERRNO);
 
-noinline unsigned long pos_ratio_injection() {
+noinline unsigned long pos_ratio_injection(void) {
 	return 0;
 }
 ALLOW_ERROR_INJECTION(pos_ratio_injection, ERRNO);
