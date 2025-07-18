@@ -150,6 +150,7 @@ bool hugepage_vma_check(struct vm_area_struct *vma, unsigned long vm_flags,
 
 	return true;
 }
+ALLOW_ERROR_INJECTION(hugepage_vma_check, TRUE);
 
 static bool get_huge_zero_page(void)
 {
