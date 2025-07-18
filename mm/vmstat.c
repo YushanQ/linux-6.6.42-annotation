@@ -1124,6 +1124,7 @@ unsigned int extfrag_for_order(struct zone *zone, unsigned int order)
 			(info.free_blocks_suitable << order)) * 100,
 			info.free_pages);
 }
+ALLOW_ERROR_INJECTION(extfrag_for_order, ERRNO);
 
 /* Same as __fragmentation index but allocs contig_page_info on stack */
 int fragmentation_index(struct zone *zone, unsigned int order)
