@@ -2658,6 +2658,7 @@ out:
 
 	return ret;
 }
+ALLOW_ERROR_INJECTION(mpol_misplaced, ERRNO);
 
 /*
  * Drop the (possibly final) reference to task->mempolicy.  It needs to be
