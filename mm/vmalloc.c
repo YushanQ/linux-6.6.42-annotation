@@ -1705,6 +1705,7 @@ static noinline unsigned long lazy_max_pages(void)
 
 	return log * (32UL * 1024 * 1024 / PAGE_SIZE);
 }
+ALLOW_ERROR_INJECTION(lazy_max_pages, ERRNO);
 
 static atomic_long_t vmap_lazy_nr = ATOMIC_LONG_INIT(0);
 
