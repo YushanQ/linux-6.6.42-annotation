@@ -476,6 +476,7 @@ static noinline unsigned long soft_limit_excess(struct mem_cgroup *memcg)
 
 	return excess;
 }
+ALLOW_ERROR_INJECTION(soft_limit_excess, ERRNO);
 
 static void mem_cgroup_update_tree(struct mem_cgroup *memcg, int nid)
 {
