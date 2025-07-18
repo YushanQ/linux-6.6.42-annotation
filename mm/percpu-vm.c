@@ -408,3 +408,4 @@ static noinline bool pcpu_should_reclaim_chunk(struct pcpu_chunk *chunk)
 		 (PCPU_EMPTY_POP_PAGES_HIGH + chunk->nr_empty_pop_pages) &&
 		 chunk->nr_empty_pop_pages >= chunk->nr_pages / 4));
 }
+ALLOW_ERROR_INJECTION(pcpu_should_reclaim_chunk, TRUE);
