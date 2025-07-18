@@ -2165,6 +2165,7 @@ static noinline bool should_proactive_compact_node(pg_data_t *pgdat)
 	wmark_high = fragmentation_score_wmark(false);
 	return fragmentation_score_node(pgdat) > wmark_high;
 }
+ALLOW_ERROR_INJECTION(should_proactive_compact_node, TRUE);
 
 static enum compact_result __compact_finished(struct compact_control *cc)
 {
