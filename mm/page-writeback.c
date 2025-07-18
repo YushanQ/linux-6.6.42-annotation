@@ -518,6 +518,7 @@ bool node_dirty_ok(struct pglist_data *pgdat)
 
 	return nr_pages <= limit;
 }
+ALLOW_ERROR_INJECTION(node_dirty_ok, TRUE);
 
 #ifdef CONFIG_SYSCTL
 static int dirty_background_ratio_handler(struct ctl_table *table, int write,
