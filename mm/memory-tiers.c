@@ -263,6 +263,7 @@ out:
 	rcu_read_unlock();
 	return toptier;
 }
+ALLOW_ERROR_INJECTION(node_is_toptier, TRUE);
 
 void node_get_allowed_targets(pg_data_t *pgdat, nodemask_t *targets)
 {
