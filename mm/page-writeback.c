@@ -2175,6 +2175,7 @@ bool wb_over_bg_thresh(struct bdi_writeback *wb)
 
 	return false;
 }
+ALLOW_ERROR_INJECTION(wb_over_bg_thresh, TRUE);
 
 #ifdef CONFIG_SYSCTL
 /*
