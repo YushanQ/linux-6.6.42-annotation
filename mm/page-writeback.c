@@ -47,13 +47,13 @@
 unsigned long (*tune_dirty_poll_interval) (unsigned long dirty, unsigned long thresh) = NULL;
 EXPORT_SYMBOL_GPL(tune_dirty_poll_interval);
 
-noinline unsigned long pause_period_injection(void) {
-	return 0;
+noinline long pause_period_injection(long pause) {
+	return pause;
 }
 ALLOW_ERROR_INJECTION(pause_period_injection, ERRNO);
 
-noinline unsigned long pos_ratio_injection(void) {
-	return 0;
+noinline long long pos_ratio_injection(long long pos_ratio) {
+	return pos_ratio;
 }
 ALLOW_ERROR_INJECTION(pos_ratio_injection, ERRNO);
 
@@ -1857,7 +1857,7 @@ free_running:
 			((gdtc->dirty > gdtc->thresh) || strictlimit);
 
 		wb_position_ratio(gdtc);
-		gdtc->pos_ratio = pos_ratio_injection();
+		gdtc->pos_ratio = pos_ratio_injection(gdtc->pos_ratio);
 		sdtc = gdtc;
 
 		if (mdtc) {
@@ -1914,7 +1914,7 @@ free_running:
 		pause = period;
 		if (current->dirty_paused_when)
 			pause -= now - current->dirty_paused_when;
-		pause = pause_period_injection();
+		pause = pause_period_injection(pause);
 		/*
 		 * For less than 1s think time (ext3/4 may block the dirtier
 		 * for up to 800ms from time to time on 1-HDD; so does xfs,
