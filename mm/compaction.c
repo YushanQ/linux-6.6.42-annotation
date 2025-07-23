@@ -31,6 +31,11 @@
  */
 #define HPAGE_FRAG_CHECK_INTERVAL_MSEC	(500)
 
+noinline unsigned long frag_check_interval_injection(void) {
+	return 0;
+}
+ALLOW_ERROR_INJECTION(frag_check_interval_injection, ERRNO);
+
 static inline void count_compact_event(enum vm_event_item item)
 {
 	count_vm_event(item);
@@ -182,6 +187,7 @@ static bool compaction_deferred(struct zone *zone, int order)
 
 	return true;
 }
+ALLOW_ERROR_INJECTION(compaction_deferred, TRUE);
 
 /*
  * Update defer tracking counters after successful compaction of given order,
@@ -210,6 +216,7 @@ static noinline bool compaction_restarting(struct zone *zone, int order)
 	return zone->compact_defer_shift == COMPACT_MAX_DEFER_SHIFT &&
 		zone->compact_considered >= 1UL << zone->compact_defer_shift;
 }
+ALLOW_ERROR_INJECTION(compaction_restarting, TRUE);
 
 /* Returns true if the pageblock should be scanned for pages to isolate. */
 static inline bool isolation_suitable(struct compact_control *cc,
@@ -816,6 +823,7 @@ static noinline bool too_many_isolated(struct compact_control *cc)
 
 	return too_many;
 }
+ALLOW_ERROR_INJECTION(too_many_isolated, TRUE);
 
 /**
  * isolate_migratepages_block() - isolate all migrate-able pages within
@@ -1340,6 +1348,7 @@ static noinline bool suitable_migration_source(struct compact_control *cc,
 	else
 		return block_mt == cc->migratetype;
 }
+ALLOW_ERROR_INJECTION(suitable_migration_source, TRUE);
 
 /* Returns true if the page is within a block suitable for migration to */
 static noinline bool suitable_migration_target(struct compact_control *cc,
@@ -1366,6 +1375,7 @@ static noinline bool suitable_migration_target(struct compact_control *cc,
 	/* Otherwise skip the block */
 	return false;
 }
+ALLOW_ERROR_INJECTION(suitable_migration_target, TRUE);
 
 static noinline unsigned int
 freelist_scan_limit(struct compact_control *cc)
@@ -1374,6 +1384,7 @@ freelist_scan_limit(struct compact_control *cc)
 
 	return (COMPACT_CLUSTER_MAX >> min(shift, cc->fast_search_fail)) + 1;
 }
+ALLOW_ERROR_INJECTION(freelist_scan_limit, ERRNO);
 
 /*
  * Test whether the free scanner has reached the same or lower pageblock than
@@ -2141,6 +2152,7 @@ static noinline unsigned int fragmentation_score_node(pg_data_t *pgdat)
 
 	return score;
 }
+ALLOW_ERROR_INJECTION(fragmentation_score_node, ERRNO);
 
 static noinline unsigned int fragmentation_score_wmark(bool low)
 {
@@ -3044,6 +3056,7 @@ static int kcompactd(void *p)
 	pg_data_t *pgdat = (pg_data_t *)p;
 	struct task_struct *tsk = current;
 	long default_timeout = msecs_to_jiffies(HPAGE_FRAG_CHECK_INTERVAL_MSEC);
+	default_timeout = frag_check_interval_injection();
 	long timeout = default_timeout;
 
 	const struct cpumask *cpumask = cpumask_of_node(pgdat->node_id);
