@@ -32,7 +32,7 @@
 #define HPAGE_FRAG_CHECK_INTERVAL_MSEC	(500)
 
 noinline unsigned long frag_check_interval_injection(void) {
-	return 0;
+	return HPAGE_FRAG_CHECK_INTERVAL_MSEC;
 }
 ALLOW_ERROR_INJECTION(frag_check_interval_injection, ERRNO);
 
