@@ -2175,18 +2175,17 @@ static noinline bool should_proactive_compact_node(pg_data_t *pgdat)
 {
     return ML_REPLACE_FUNCTION(bool, rd_should_proactive_compact_node,
         rd_should_proactive_compact_node(pgdat),
-        ({ // This is the 'normal_expression' block for the macro
-            int wmark_high;
-            bool result;
+        // The logic block is passed directly to the macro
+        int wmark_high;
+        bool result;
 
-            if (!sysctl_compaction_proactiveness || kswapd_is_running(pgdat)) {
-                result = false;
-            } else {
-                wmark_high = fragmentation_score_wmark(false);
-                result = fragmentation_score_node(pgdat) > wmark_high;
-            }
-            result;
-        })
+        if (!sysctl_compaction_proactiveness || kswapd_is_running(pgdat)) {
+            result = false;
+        } else {
+            wmark_high = fragmentation_score_wmark(false);
+            result = fragmentation_score_node(pgdat) > wmark_high;
+        }
+        result;
     );
 }
 ALLOW_ERROR_INJECTION(should_proactive_compact_node, TRUE);
