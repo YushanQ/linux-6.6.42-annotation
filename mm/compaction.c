@@ -24,6 +24,10 @@
 #include <linux/page_owner.h>
 #include <linux/psi.h>
 #include "internal.h"
+#include <linux/kermit.h>
+
+bool (*rd_should_proactive_compact_node)(struct pg_data_t *pgdat) = NULL;
+EXPORT_SYMBOL_GPL(rd_should_proactive_compact_node);
 
 #ifdef CONFIG_COMPACTION
 /*
@@ -2169,13 +2173,21 @@ static noinline unsigned int fragmentation_score_wmark(bool low)
 
 static noinline bool should_proactive_compact_node(pg_data_t *pgdat)
 {
-	int wmark_high;
+    return ML_REPLACE_FUNCTION(bool, rd_should_proactive_compact_node,
+        rd_should_proactive_compact_node(pgdat),
+        ({ // This is the 'normal_expression' block for the macro
+            int wmark_high;
+            bool result;
 
-	if (!sysctl_compaction_proactiveness || kswapd_is_running(pgdat))
-		return false;
-
-	wmark_high = fragmentation_score_wmark(false);
-	return fragmentation_score_node(pgdat) > wmark_high;
+            if (!sysctl_compaction_proactiveness || kswapd_is_running(pgdat)) {
+                result = false;
+            } else {
+                wmark_high = fragmentation_score_wmark(false);
+                result = fragmentation_score_node(pgdat) > wmark_high;
+            }
+            result;
+        })
+    );
 }
 ALLOW_ERROR_INJECTION(should_proactive_compact_node, TRUE);
 
