@@ -26,7 +26,7 @@
 #include "internal.h"
 #include <linux/kermit.h>
 
-bool (*rd_should_proactive_compact_node)(struct pg_data_t *pgdat) = NULL;
+bool (*rd_should_proactive_compact_node)(struct pglist_data *pgdat) = NULL;
 EXPORT_SYMBOL_GPL(rd_should_proactive_compact_node);
 
 #ifdef CONFIG_COMPACTION
