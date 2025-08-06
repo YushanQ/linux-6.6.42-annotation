@@ -34,9 +34,13 @@
 #include <linux/writeback.h>
 #include <linux/pagemap.h>
 #include <linux/workqueue.h>
+#include <linux/kermit.h>
 
 #include "swap.h"
 #include "internal.h"
+
+int (*ml_zswap_get_accept_thr_percent)(void) = NULL;
+EXPORT_SYMBOL_GPL(ml_zswap_get_accept_thr_percent);
 
 /*********************************
 * statistics
@@ -264,9 +268,13 @@ static bool zswap_is_full(void)
 			DIV_ROUND_UP(zswap_pool_total_size, PAGE_SIZE);
 }
 
-static bool zswap_can_accept(void)
-{
-	return totalram_pages() * zswap_accept_thr_percent / 100 *
+static noinline bool zswap_can_accept(void)
+{	
+	int threshold = ML_REPLACE_FUNCTION(int, ml_zswap_get_accept_thr_percent,
+        	ml_zswap_get_accept_thr_percent(),
+        	zswap_accept_thr_percent;
+    	);
+	return totalram_pages() * threshold / 100 *
 				zswap_max_pool_percent / 100 >
 			DIV_ROUND_UP(zswap_pool_total_size, PAGE_SIZE);
 }
